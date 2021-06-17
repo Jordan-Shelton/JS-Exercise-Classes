@@ -48,14 +48,31 @@ class Airplane {
       this.stomach = [];
     }
     eat(edible){
-      return this.stomach.push;
+      if(this.stomach.length < 10){
+        this.stomach.push(edible);
+      }
     }
     poop(){
-      return this.stomach === [0];
+      this.stomach = [];
     }
-    
+    toString(){
+      return `${this.name}, ${this.age}`;
+    }
   }
-  
+
+  const jordan = new Person ('Jordan', 26);
+
+  jordan.eat('taco');
+  jordan.eat('pizza');
+  jordan.eat('noodles');
+  jordan.eat('sushi');
+  jordan.eat('burrito');
+  // console.log(jordan.stomach);
+
+  jordan.poop();
+  // console.log(jordan.stomach);
+
+  // console.log(jordan.toString());
   /*
     TASK 2
       - Write a Car class whose constructor initializes `model` and `milesPerGallon` from arguments.
@@ -71,8 +88,36 @@ class Airplane {
   */
   
  class Car {
-    
+    constructor(model, milesPerGallon){
+      this.model = model;
+      this.milesPerGallon = milesPerGallon;
+      this.tank = 0;
+      this.odometer = 0;
+    }
+    fill(gallons){
+      this.tank += gallons;
+    }
+    drive(distance){
+      if(this.tank > 0){
+        return this.odometer += distance;
+        return this.tank -= 16 / distance;
+      }else{
+        return `I ran out of fuel at ${this.odometer}.`;
+      }
+    }
+
   }
+
+  const truck = new Car({
+    model : 'truck',
+    milesPerGallon : 16,
+    tank : 0,
+    odometer : 0,
+  });
+
+  truck.fill(20);
+  truck.drive(100);
+
   
   /*
     TASK 3
@@ -87,8 +132,24 @@ class Airplane {
           + {name} and {location} of course come from the instance's own properties.
   */
  class Lambdasian {
-    
+    constructor(attrs){
+      this.name = attrs.name;
+      this.age = attrs.age;
+      this.location = attrs.location;
+    }
+    speak(){
+      return `Hello my name is ${this.name}, I am from ${this.location}'.`
+    }
   }
+
+  const jordan1 = new Lambdasian({
+    name : 'Jordan',
+    age : 26,
+    location : 'Oklahoma',
+  });
+
+  // console.log(jordan1);
+  // console.log(jordan1.speak());
   
   /*
     TASK 4
@@ -104,9 +165,33 @@ class Airplane {
           + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
           + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
   */
- class Instructor {
-
+ class Instructor extends Lambdasian{
+   constructor(attrs){
+     super(attrs);
+     this.specialty = attrs.specialty;
+     this.favLanguage = attrs.favLanguage;
+     this.catchPhrase = attrs.catchPhrase;
+   }
+   demo(subject){
+     return `'Today we are learning about ${subject}'`;
+   }
+   grade(student, subject){
+     return `'${student.name} receives a perfect score on ${subject}`
+   }
  }
+
+ const brit = new Instructor({
+   name : 'Brit H',
+   age : 'none of my business',
+   location : 'Canada',
+   specialty : 'Typing crazy fast',
+   favLanguage : 'Javascript?',
+   catchphrase : 'This might be on the sprint challenge',
+ })
+
+//  console.log(brit.speak());
+//  console.log(brit.demo('closures'));
+//  console.log(brit.grade(jordan1, 'classes'));
   /*
     TASK 5
       - Write a Student class extending Lambdasian.
@@ -122,10 +207,37 @@ class Airplane {
           + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
           + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
   */
- class Student {
-     
+ class Student extends Lambdasian{
+   constructor(attrs){
+     super(attrs);
+     this.previousBackground = attrs.previousBackground;
+     this.className = attrs.className;
+     this.favSubjects = attrs.favSubjects;
+   }
+    listSubjects(){
+      return this.favSubjects;
+    } 
+    PRAssignment(subject){
+      return `${this.name} has submitted a PR for ${subject}`;
+    }
+    sprintChallenge(subject){
+      return `${this.name} has begun sprint challenge on ${subject}`
+    }
  }
   
+ const jordan2 = new Student({
+  name : 'Jordan',
+  age : 26,
+  location : 'Oklahoma',
+  previousBackground : 'Mechanic',
+  className : 'web45',
+  favSubjects : ['HTML', 'CSS', 'Classes']
+ });
+
+//  console.log(jordan2);
+//  console.log(jordan2.listSubjects());
+//  console.log(jordan2.PRAssignment('classes'));
+//  console.log(jordan2.sprintChallenge('classes'));
   /*
     TASK 6
       - Write a ProjectManager class extending Instructor.
@@ -139,9 +251,33 @@ class Airplane {
           + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
           + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
   */
- class ProjectManager {
-     
+ class ProjectManager extends Instructor {
+     constructor(attrs){
+       super(attrs);
+       this.gradClassName = attrs.gradClassName;
+       this.favInstructor = attrs.favInstructor;
+     }
+     standUp(slackChannel){
+       return `${this.name} announces to ${slackChannel}, @channel standy times!`;
+     }
+     debugsCode(student, subject){
+       `${this.name} debugs ${student.name}'s code on ${subject}`
+     }
  }
+
+ const michele = new ProjectManager({
+  name : 'Michele',
+  age : '28',
+  location : 'Texas',
+  specialty : 'Finding typos',
+  favLanguage : 'Javacript',
+  catchphrase : 'You spelt that wrong',
+  gradClassName : 'web28',
+  favInstructor : 'Brit',
+ })
+//  console.log(michele);
+//  console.log(michele.standUp('web45 help'));
+//  console.log(michele.debugsCode(jordan1, 'HTML'));
   /*
     STRETCH PROBLEM (no tests!)
       - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
